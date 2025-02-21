@@ -1,0 +1,14 @@
+<Page  x:Class="AttendanceApp.MainDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        FontSize="20" 
+        Title="Main Dashboard" Height="350" Width="525">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Name="btnAdminPortal" Style="{StaticResource ModernButtonStyle}" Content="Admin Portal" Width="300"  
+                    Click="btnAdminPortal_Click"/>
+            <Button Name="btnLecturerPortal" Style="{StaticResource ModernButtonStyle}" Content="Lecturer Portal" Width="300"  
+                    Margin="0,20,0,0" Click="btnLecturerPortal_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

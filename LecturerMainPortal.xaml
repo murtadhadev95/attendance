@@ -1,0 +1,131 @@
+<Page x:Class="AttendanceApp.LecturerMainPortal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lecturer Portal"
+        FontFamily="Segoe UI"
+         FontSize="17"
+      xmlns:local="clr-namespace:AttendanceApp"
+
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Page.Resources>
+
+        <!-- Modern ComboBox Style -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Modern Label Style -->
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#333"/>
+        </Style>
+
+        <!-- Modern GroupBox Style -->
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderBrush" Value="#007ACC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Modern ListView Style -->
+        <Style TargetType="ListView">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <local:AddOneConverter x:Key="AddOneConverter" />
+
+    </Page.Resources>
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Column: Archived Attendance Records -->
+        <GroupBox Header="Archived Attendance" Grid.Column="0">
+            <ListBox x:Name="lbArchived" SelectionChanged="lbArchived_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Foreground="#333"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+
+        <!-- Right Column: Attendance Interface -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Drop-downs -->
+                <RowDefinition Height="*"/>
+                <!-- Student list -->
+                <RowDefinition Height="Auto"/>
+                <!-- Buttons -->
+            </Grid.RowDefinitions>
+
+            <!-- Drop-down selections -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+                <Label VerticalAlignment="Center" Content="Stage:"/>
+                <ComboBox x:Name="cbStage" SelectionChanged="cbStageOrGroup_SelectionChanged"/>
+                <Label VerticalAlignment="Center" Content="Subject:"/>
+                <ComboBox x:Name="cbSubject"/>
+                <Label VerticalAlignment="Center" Content="Group:"/>
+                <ComboBox x:Name="cbGroup" SelectionChanged="cbStageOrGroup_SelectionChanged"/>
+            </StackPanel>
+
+            <!-- Student list with checkboxes; names shown RTL -->
+                <ListView x:Name="lvStudents" 
+          Grid.Row="1" 
+          Margin="5" 
+          FlowDirection="RightToLeft"
+          AlternationCount="1000">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" Width="70">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListViewItem},
+                                                  Path=(ItemsControl.AlternationIndex),
+                                                  Converter={StaticResource AddOneConverter}}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Student Name" Width="300">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" TextAlignment="Right" Margin="5" Foreground="#333"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Present" Width="70">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox FlowDirection="LeftToRight"  IsChecked="{Binding IsPresent}" Margin="5"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <!-- Buttons for saving, exporting attendance and Back -->
+            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="5">
+                <Button Style="{StaticResource ModernButtonStyle}" Content="Save Attendance" Width="150"  Click="SaveAttendance_Click"/>
+                <Button Style="{StaticResource ModernButtonStyle}" Content="Back" Width="150"  Click="BackButton_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

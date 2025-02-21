@@ -1,0 +1,58 @@
+<Window x:Class="AttendanceApp.ArchiveDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        FontSize="17"
+        Title="Attendance Details" Height="400" Width="600"
+        Background="#FFF" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header details -->
+            <RowDefinition Height="*" />
+            <!-- Group details with scrolling -->
+            <RowDefinition Height="Auto" />
+            <!-- Buttons -->
+        </Grid.RowDefinitions>
+        <Label x:Name="lblLecturerName" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" />
+
+        <!-- Archive header showing Date, Stage, and Subject -->
+        <TextBlock Grid.Row="0" Text="{Binding ArchiveHeader}" FontSize="16" FontWeight="Bold" 
+                   TextAlignment="Center" Margin="0,0,0,10" Foreground="#333"/>
+
+        <!-- ScrollViewer wrapping ItemsControl for group details -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="icGroupDetails">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#DDD" BorderThickness="1" Padding="10" Margin="5" CornerRadius="4" Background="White">
+                            <StackPanel>
+                                <!-- Group Name -->
+                                <TextBlock Text="{Binding GroupName}" FontWeight="Bold" 
+                                           HorizontalAlignment="Center" Foreground="#007ACC"/>
+                                <!-- Absent Count at bottom (emphasized) -->
+                                <TextBlock Text="{Binding Count}" FontSize="20" FontWeight="Bold" Foreground="Red" 
+                                           HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                                <!-- Absent Names (each on new line) -->
+                                <TextBlock Text="{Binding AbsentNames}" TextWrapping="Wrap" 
+                                           HorizontalAlignment="Center" TextAlignment="Center" Margin="0,5,0,0" Foreground="#555"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- Button Panel -->
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Style="{StaticResource ModernButtonStyle}" Background="Gray" Content="Close" 
+                    Width="104" Click="CloseButton_Click"/>
+            <Button Style="{StaticResource ModernButtonStyle}" Content="Export to Excel" Width="160" 
+                    Click="ExportAttendance_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
